@@ -15,13 +15,15 @@ Uma forma de organização de arquivos de testes
 <h1> Jest </h1>
 <h2>Configuração com Vite + Jest</h2>
 como utilizei o vite precisei fazer algumas configurações
-- npm install --save-dev jest @types/jest ts-jest
+
+- `npm install --save-dev jest @types/jest ts-jest`
 - criar um arquivo de configuração Jest na raiz "jest.config.cjs" - pegar o exemplo desse projeto
 - adicionar no package.json no script {"teste": "jest"} - pegar o exemplo desse projeto
 
 <h2>Configurando Vite com testing-library</h2>
-- npm install --save-dev @testing-library/react
-- também é necessario instalar o npm install --save-dev jest-environment-jsdom
+
+- `npm install --save-dev @testing-library/react`
+- também é necessario instalar o `npm install --save-dev jest-environment-jsdom`
 
 
 <h3>Exemplo simples de teste unitario</h3>
