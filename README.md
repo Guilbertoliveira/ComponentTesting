@@ -1,27 +1,86 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O Teste é uma espectativa que temos para o retorno
+Uma forma de organização de arquivos de testes
 
-Currently, two official plugins are available:
+.spec - para testes unitarios
+.test - para testes de integração
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Para testes unitarios utilizamos o Jest (testa um componente unitario)
 
-## Expanding the ESLint configuration
+- Para testes de intengração (testa 2 ou mais componentes que são usado juntos)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Para testes E2E - são testes com fluxos complexos e com API e banco de dados reais
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+<h1> Jest </h1>
+<h2>Configuração com Vite + Jest</h2>
+como utilizei o vite precisei fazer algumas configurações
+- npm install --save-dev jest @types/jest ts-jest
+- criar um arquivo de configuração Jest na raiz "jest.config.cjs" - pegar o exemplo desse projeto
+- adicionar no package.json no script {"teste": "jest"} - pegar o exemplo desse projeto
+
+<h2>Configurando Vite com testing-library</h2>
+- npm install --save-dev @testing-library/react
+- também é necessario instalar o npm install --save-dev jest-environment-jsdom
+
+
+<h3>Exemplo simples de teste unitario</h3>
+Um exemplo simples de teste, criado na src -> pages -> App.test.tsx
+
+```
+const sum = (x: number, y: number) => {
+    return x + y
+}
+
+describe('App Component', () => { //nome do componente testado
+    it('deveria somar corretamente', () => {  // descrição da expectativa
+        expect(sum(4, 4)).toBe(8) //expectativa o retorno da função seja 8
+    })
+})
+
+
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+<h3> Exemplo de teste com botão que renderiza um novo texto </h2>
+
+```
+
+    it('deveria alterar a mensagem quando clicar no botão', () => {
+        render(<ComponenteTeste />)
+
+        screen.getByText("mensagem não alterada")
+
+        const button = screen.getByText(/mensagem do botao/i) //criando ação de click
+
+        fireEvent.click(button)
+
+        screen.getByText("mensagem foi alterada")
+    })
+
+```
+
+
+esse ToBe é um 'matchers' do Jest utilizado para verificar
+<a href="https://jestjs.io/pt-BR/docs/using-matchers">Link matchers</a>
+
+
+<h4 >Problemas enfrentados (resolvidos):</h4>
+- O jest reconhece os arquivos css como javascrit e da erro quando tenta compilar, para resolver necessita criar uma pasta de mock e colocar um arquivo css vazio e passar uma nova configuração pro jest.config
+
+```
+
+  "moduleNameMapper": { //configuração responsavel por pegar sempre o css vazio e nao dar conflito
+    "\\.(css|less|scss)$": "<rootDir>/src/pages/__mocks__/App.css"
+  }
+
+```
+
+Pra não precisar ficar rodando o comando e verificando, uma boa forma de ver os testes é com o 
+
+
+
+    "test": "jest --watch"
+
+
+assim vc consegue deixar o jest observando toda vez que o arquivo for salvo
+
